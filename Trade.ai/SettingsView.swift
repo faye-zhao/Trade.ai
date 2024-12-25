@@ -4,6 +4,7 @@ struct SettingsView: View {
     @State private var notificationsEnabled = false // State for toggle
     @State private var isUpgradeViewPresented = false // State to show Upgrade View
     @State private var isDisclaimerPresented = false // State to show Disclaimer view
+    @State private var isContactUsPresented = false // State to show Contact Us view
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -75,8 +76,9 @@ struct SettingsView: View {
                     }
                 }
                 
+                // Contact Us Button
                 Button(action: {
-                    print("Contact Us tapped")
+                    isContactUsPresented.toggle()
                 }) {
                     HStack {
                         Image(systemName: "envelope.fill")
@@ -84,6 +86,10 @@ struct SettingsView: View {
                         Text("Contact Us")
                             .foregroundColor(.primary)
                     }
+                }
+                .padding(.horizontal)
+                .sheet(isPresented: $isContactUsPresented) {
+                    ContactUsView()
                 }
 
                 // Disclaimer Button
@@ -106,12 +112,6 @@ struct SettingsView: View {
             .padding(.horizontal)
             
             Spacer()
-            
-            // Close Button
-            Button("Close") {
-                // Add close action if needed
-            }
-            .padding()
         }
         .frame(maxHeight: .infinity)
         .padding() // Overall padding for the view
