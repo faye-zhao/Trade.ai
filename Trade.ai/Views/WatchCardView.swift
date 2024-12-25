@@ -75,11 +75,11 @@ struct WatchCardView: View {
         let lines = csvString.components(separatedBy: .newlines)
         // Print the lines to the console
         print("CSV Lines:")
-        /*
+        
         for (index, line) in lines.enumerated() {
             print("Line \(index + 1): \(line)")
         }
-        */
+        
         // Create a date formatter
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -114,15 +114,15 @@ struct WatchCardView: View {
 
             let sector = columns[10]
 
-            let closeColumn = columns[22]
+            let closeColumn = columns[23]
             let cleanCloseColumn = closeColumn
                 .replacingOccurrences(of: "\"", with: "")
 
-            let closedPriceColumn = columns[31]
+            let closedPriceColumn = columns[32]
             let cleanClosedPriceColumn = closedPriceColumn
                 .replacingOccurrences(of: "\"", with: "")
 
-            let nowPriceColumn = columns[31]
+            let nowPriceColumn = columns[32]
             let cleanNowPriceColumn = nowPriceColumn
                 .replacingOccurrences(of: "\"", with: "")
 
