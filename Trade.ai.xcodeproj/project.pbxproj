@@ -12,6 +12,7 @@
 		DDE840BB2D1CAA0E004D0AA2 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE840BA2D1CAA0E004D0AA2 /* Notifications.swift */; };
 		DDE840BD2D1CAC75004D0AA2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE840BC2D1CAC75004D0AA2 /* SettingsView.swift */; };
 		DDE840BF2D1CC144004D0AA2 /* UpgradeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE840BE2D1CC144004D0AA2 /* UpgradeView.swift */; };
+		DDE840C12D1CCD85004D0AA2 /* DisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE840C02D1CCD85004D0AA2 /* DisclaimerView.swift */; };
 		DDFA8D642CBB2CE90082DEFC /* Trade_aiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFA8D632CBB2CE90082DEFC /* Trade_aiApp.swift */; };
 		DDFA8D662CBB2CE90082DEFC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFA8D652CBB2CE90082DEFC /* ContentView.swift */; };
 		DDFA8D682CBB2CEA0082DEFC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDFA8D672CBB2CEA0082DEFC /* Assets.xcassets */; };
@@ -48,6 +49,7 @@
 		DDE840BA2D1CAA0E004D0AA2 /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		DDE840BC2D1CAC75004D0AA2 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		DDE840BE2D1CC144004D0AA2 /* UpgradeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeView.swift; sourceTree = "<group>"; };
+		DDE840C02D1CCD85004D0AA2 /* DisclaimerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisclaimerView.swift; sourceTree = "<group>"; };
 		DDFA8D602CBB2CE90082DEFC /* Trade.ai.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Trade.ai.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDFA8D632CBB2CE90082DEFC /* Trade_aiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trade_aiApp.swift; sourceTree = "<group>"; };
 		DDFA8D652CBB2CE90082DEFC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 		DDFA8D622CBB2CE90082DEFC /* Trade.ai */ = {
 			isa = PBXGroup;
 			children = (
+				DDE840C02D1CCD85004D0AA2 /* DisclaimerView.swift */,
 				DDE840BE2D1CC144004D0AA2 /* UpgradeView.swift */,
 				DDE840BC2D1CAC75004D0AA2 /* SettingsView.swift */,
 				DDE840BA2D1CAA0E004D0AA2 /* Notifications.swift */,
@@ -285,6 +288,7 @@
 				DDFA8D8E2CBB35050082DEFC /* Tick.swift in Sources */,
 				DDE840BD2D1CAC75004D0AA2 /* SettingsView.swift in Sources */,
 				DDE840BB2D1CAA0E004D0AA2 /* Notifications.swift in Sources */,
+				DDE840C12D1CCD85004D0AA2 /* DisclaimerView.swift in Sources */,
 				DDFA8D662CBB2CE90082DEFC /* ContentView.swift in Sources */,
 				DDE840BF2D1CC144004D0AA2 /* UpgradeView.swift in Sources */,
 				DDFA8D902CBB35270082DEFC /* WatchCardView.swift in Sources */,

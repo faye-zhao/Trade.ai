@@ -3,7 +3,8 @@ import SwiftUI
 struct SettingsView: View {
     @State private var notificationsEnabled = false // State for toggle
     @State private var isUpgradeViewPresented = false // State to show Upgrade View
-    
+    @State private var isDisclaimerPresented = false // State to show Disclaimer view
+
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Text("Settings")
@@ -84,9 +85,10 @@ struct SettingsView: View {
                             .foregroundColor(.primary)
                     }
                 }
-                
+
+                // Disclaimer Button
                 Button(action: {
-                    print("Disclaimer tapped")
+                    isDisclaimerPresented.toggle()
                 }) {
                     HStack {
                         Image(systemName: "info.circle.fill")
@@ -95,6 +97,11 @@ struct SettingsView: View {
                             .foregroundColor(.primary)
                     }
                 }
+                .padding(.horizontal)
+                .sheet(isPresented: $isDisclaimerPresented) {
+                    DisclaimerView()
+                }                
+
             }
             .padding(.horizontal)
             
