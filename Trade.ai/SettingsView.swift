@@ -2,15 +2,16 @@ import SwiftUI
 
 struct SettingsView: View {
     var body: some View {
-        
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
             Text("Settings")
-            
-            WatchCardView()
+                .font(.headline)
+                .padding()
+            Spacer()
+            Button("Close") {
+                // Add close action if needed
+            }
+            .padding()
         }
-        .padding()
+        .frame(maxHeight: .infinity)
     }
 }

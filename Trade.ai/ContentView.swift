@@ -12,10 +12,10 @@ struct ContentView: View {
                 }
                 .tag(0)
                         
-            SettingsView()
+            NotificationsView()
                 .tabItem {
-                    Image(systemName: selectedTab == 1 ? "gearshape.fill" : "gearshape")
-                    Text("Settings")
+                    Image(systemName: selectedTab == 1 ? "bell.fill" : "bell")
+                    Text("Notifications")
                 }
                 .tag(1)
         }

@@ -25,21 +25,6 @@ struct WatchCardView: View {
             }
         }
     }
-    
-    private func loadData0() {
-        let dummyData: [DateEntry] = [
-            DateEntry(date: "2024-01-01", ticks: [
-                Tick(symbol: "AAPL", sector: "Technology", close: 150.0, nowPrice: 152.5, closedPrice: nil, date: "2024-01-01"),
-                Tick(symbol: "GOOGL", sector: "Technology", close: 2800.0, nowPrice: 2850.0, closedPrice: 2830.0, date: "2024-01-01"),
-                Tick(symbol: "MSFT", sector: "Technology", close: 300.0, nowPrice: 305.0, closedPrice: nil, date: "2024-01-01")
-            ]),
-            DateEntry(date: "2024-01-02", ticks: [
-                Tick(symbol: "AMZN", sector: "Consumer Cyclical", close: 3300.0, nowPrice: 3350.0, closedPrice: 3340.0, date: "2024-01-02"),
-                Tick(symbol: "TSLA", sector: "Consumer Cyclical", close: 700.0, nowPrice: 720.0, closedPrice: nil, date: "2024-01-02")
-            ])
-        ]
-        self.dateList = dummyData
-    }
 
     private func loadData() async {
         isLoading = true
