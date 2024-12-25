@@ -1,27 +1,29 @@
-//
-//  ContentView.swift
-//  Trade.ai
-//
-//  Created by fang zhao on 10/12/24.
-//
-
 import SwiftUI
 
 struct ContentView: View {
+    @State private var selectedTab = 0
+    
     var body: some View {
-        
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, trader!")
+        TabView(selection: $selectedTab) {
+            HomeView()
+                .tabItem {
+                    Image(systemName: selectedTab == 0 ? "house.fill" : "house")
+                    Text("Home")
+                }
+                .tag(0)
+                        
+            SettingsView()
+                .tabItem {
+                    Image(systemName: selectedTab == 1 ? "gearshape.fill" : "gearshape")
+                    Text("Settings")
+                }
+                .tag(1)
         }
-        .padding()
-        
-        WatchCardView()
     }
 }
 
-#Preview {
-    ContentView()
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
 }

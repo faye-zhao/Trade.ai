@@ -8,10 +8,10 @@ struct HomeView: View {
                 .imageScale(.large)
                 .foregroundStyle(.tint)
             Text("AI Signals")
+            
+            WatchCardView()
         }
         .padding()
-        
-        WatchCardView()
     }
 }
 

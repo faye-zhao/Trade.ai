@@ -8,9 +8,9 @@ struct SettingsView: View {
                 .imageScale(.large)
                 .foregroundStyle(.tint)
             Text("Settings")
+            
+            WatchCardView()
         }
         .padding()
-        
-        WatchCardView()
     }
 }

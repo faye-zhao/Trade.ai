@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		DDE8406E2CFE533F004D0AA2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE8406D2CFE533F004D0AA2 /* AppDelegate.swift */; };
+		DDE840B72D1C99F0004D0AA2 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE840B62D1C99F0004D0AA2 /* HomeView.swift */; };
+		DDE840B92D1C9A01004D0AA2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE840B82D1C9A01004D0AA2 /* SettingsView.swift */; };
 		DDFA8D642CBB2CE90082DEFC /* Trade_aiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFA8D632CBB2CE90082DEFC /* Trade_aiApp.swift */; };
 		DDFA8D662CBB2CE90082DEFC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFA8D652CBB2CE90082DEFC /* ContentView.swift */; };
 		DDFA8D682CBB2CEA0082DEFC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDFA8D672CBB2CEA0082DEFC /* Assets.xcassets */; };
@@ -40,6 +42,8 @@
 		DDA5B7F72CF901E7006308EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DDE8406C2CFE3118004D0AA2 /* Trade.ai.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Trade.ai.entitlements; sourceTree = "<group>"; };
 		DDE8406D2CFE533F004D0AA2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		DDE840B62D1C99F0004D0AA2 /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		DDE840B82D1C9A01004D0AA2 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		DDFA8D602CBB2CE90082DEFC /* Trade.ai.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Trade.ai.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDFA8D632CBB2CE90082DEFC /* Trade_aiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trade_aiApp.swift; sourceTree = "<group>"; };
 		DDFA8D652CBB2CE90082DEFC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -102,6 +106,8 @@
 		DDFA8D622CBB2CE90082DEFC /* Trade.ai */ = {
 			isa = PBXGroup;
 			children = (
+				DDE840B82D1C9A01004D0AA2 /* SettingsView.swift */,
+				DDE840B62D1C99F0004D0AA2 /* HomeView.swift */,
 				DDE8406C2CFE3118004D0AA2 /* Trade.ai.entitlements */,
 				DDFA8D632CBB2CE90082DEFC /* Trade_aiApp.swift */,
 				DDFA8D652CBB2CE90082DEFC /* ContentView.swift */,
@@ -270,9 +276,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDE840B92D1C9A01004D0AA2 /* SettingsView.swift in Sources */,
 				DDFA8D8E2CBB35050082DEFC /* Tick.swift in Sources */,
 				DDFA8D662CBB2CE90082DEFC /* ContentView.swift in Sources */,
 				DDFA8D902CBB35270082DEFC /* WatchCardView.swift in Sources */,
+				DDE840B72D1C99F0004D0AA2 /* HomeView.swift in Sources */,
 				DDE8406E2CFE533F004D0AA2 /* AppDelegate.swift in Sources */,
 				DDFA8D642CBB2CE90082DEFC /* Trade_aiApp.swift in Sources */,
 			);
