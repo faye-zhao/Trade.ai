@@ -1,11 +1,10 @@
 import SwiftUI
-import MessageUI
 
 struct ContactUsView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var emailText: String = ""
     @State private var messageText: String = ""
-    @State private var showAlert = false // Alert for confirmation
+    @State private var showErrorAlert = false
 
     var body: some View {
         VStack(spacing: 20) {
@@ -13,7 +12,7 @@ struct ContactUsView: View {
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .padding(.top)
-            
+
             TextField("Your Email Address", text: $emailText)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)
@@ -35,38 +34,40 @@ struct ContactUsView: View {
                     .cornerRadius(10)
             }
             .padding(.horizontal)
-            
+
             Spacer()
-            
+
             Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
             }
             .foregroundColor(.red)
         }
         .padding()
-        .alert(isPresented: $showAlert) {
+        .alert(isPresented: $showErrorAlert) {
             Alert(
-                title: Text("Message Sent"),
-                message: Text("Thank you for contacting us. We’ll get back to you soon!"),
-                dismissButton: .default(Text("OK"), action: {
-                    presentationMode.wrappedValue.dismiss()
-                })
+                title: Text("Error"),
+                message: Text("Unable to send the message. Please make sure you have a valid email client configured."),
+                dismissButton: .default(Text("OK"))
             )
         }
     }
 
     private func sendContactUsMessage() {
-        // Simulated contact us functionality
         guard !emailText.isEmpty, !messageText.isEmpty else {
-            // Optionally add validation for empty fields
+            showErrorAlert = true
             return
         }
 
-        // Simulate sending the message (Replace with actual email API or mailto functionality)
-        print("Email: \(emailText)")
-        print("Message: \(messageText)")
-
-        // Show confirmation alert
-        showAlert = true
+        // Create the mailto URL
+        let subject = "Contact Us Inquiry"
+        let body = "From: \(emailText)\n\n\(messageText)"
+        if let emailURL = URL(string: "mailto:fzhire@gmail.com?subject=\(subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")&body=\(body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")") {
+            // Open the default email app
+            if UIApplication.shared.canOpenURL(emailURL) {
+                UIApplication.shared.open(emailURL)
+            } else {
+                showErrorAlert = true
+            }
+        }
     }
 }
