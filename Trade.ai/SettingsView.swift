@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @State private var notificationsEnabled = false // State for toggle
+    @State private var isUpgradeViewPresented = false // State to show Upgrade View
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -29,7 +30,7 @@ struct SettingsView: View {
                     .padding(.horizontal)
                 
                 Button(action: {
-                    print("Upgrade AI Signal tapped")
+                    isUpgradeViewPresented.toggle() // Present the Upgrade View
                 }) {
                     HStack {
                         Image(systemName: "star.fill")
@@ -44,6 +45,9 @@ struct SettingsView: View {
                     .cornerRadius(10)
                 }
                 .padding(.horizontal)
+                .sheet(isPresented: $isUpgradeViewPresented) {
+                    UpgradeView() // Navigate to Upgrade Screen
+                }
             }
             
             // Additional Options
