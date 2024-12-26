@@ -10,9 +10,23 @@ struct WatchCardView: View {
                 ProgressView("Loading data...")
             } else {
                 ScrollView {
-                    VStack(spacing: 10) {
-                        ForEach(dateList) { entry in
-                            CardView(entry: entry)
+                    VStack(spacing: 10) {                        
+                        Text("Today")
+                            .font(.headline)
+                            .padding(.horizontal)
+                            .frame(maxWidth: .infinity, alignment: .leading) // Align to the left
+                        
+                        
+                        ForEach(dateList.indices, id: \.self) { index in
+                            if index > 0, index == 1 { // After the first card
+                                Text("Older")
+                                    .font(.headline)
+                                    .padding(.horizontal)
+                                    .padding(.top, 20) // Add spacing above "Older"
+                                    .frame(maxWidth: .infinity, alignment: .leading) // Align to the left
+                            }
+                            
+                            CardView(entry: dateList[index])
                         }
                     }
                     .padding()
