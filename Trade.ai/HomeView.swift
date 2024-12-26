@@ -34,7 +34,7 @@ struct HomeView: View {
                     Text("AI Signals")
                         .font(.title) // Optional: Adjust font size
                     
-                    WatchCardView()
+                    CardListView()
                 }
                 .padding(.horizontal) // Add consistent left and right padding
             }
