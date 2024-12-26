@@ -22,6 +22,21 @@ struct SettingsView: View {
                     Text("Enable Notifications")
                         .font(.body)
                 }
+                .onChange(of: notificationsEnabled) { newValue in
+                    if newValue {
+                        // Request notification permissions
+                        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+                            if success {
+                                print("Notification permissions granted")
+                            } else if let error = error {
+                                print(error.localizedDescription)
+                            }
+                        }
+                    } else {
+                        // Disable notifications
+                        UIApplication.shared.unregisterForRemoteNotifications()
+                    }
+                }
             }
             .padding(.horizontal)
             
