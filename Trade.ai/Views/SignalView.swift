@@ -60,11 +60,11 @@ struct SignalView: View {
         let lines = csvString.components(separatedBy: .newlines)
         // Print the lines to the console
         print("CSV Lines:")
-        
+        /*
         for (index, line) in lines.enumerated() {
             print("Line \(index + 1): \(line)")
         }
-        
+        */
         // Create a date formatter
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
