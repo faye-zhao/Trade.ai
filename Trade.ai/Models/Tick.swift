@@ -4,6 +4,7 @@ struct Tick: Identifiable {
     let id = UUID()
     let symbol: String
     let sector: String
+    let support: Double
     let close: Double
     let nowPrice: Double
     let closedPrice: Double?

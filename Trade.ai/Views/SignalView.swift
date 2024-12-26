@@ -103,6 +103,10 @@ struct SignalView: View {
             let cleanCloseColumn = closeColumn
                 .replacingOccurrences(of: "\"", with: "")
 
+            let loColumn = columns[22]
+            let cleanLoColumn = loColumn
+                .replacingOccurrences(of: "\"", with: "")
+
             let closedPriceColumn = columns[32]
             let cleanClosedPriceColumn = closedPriceColumn
                 .replacingOccurrences(of: "\"", with: "")
@@ -114,10 +118,11 @@ struct SignalView: View {
             let close = Double(cleanCloseColumn) ?? 0.0
             let nowPrice = Double(cleanNowPriceColumn) ?? 0.0
             let closedPrice = Double(cleanClosedPriceColumn)
-            
+            let support = Double(cleanLoColumn) ?? 0.0
+
             //print("Date: \(columns[1]), \(columns[8]), \(Float(columns[8])) , Symbol: \(symbol), Sector: \(sector), Close: \(close), Now Price: \(nowPrice), Closed Price: \(closedPrice)")
 
-            let tick = Tick(symbol: cleanSymbol, sector: sector, close: close, nowPrice: nowPrice, closedPrice: closedPrice, date: cleanDate)       
+            let tick = Tick(symbol: cleanSymbol, sector: sector, support: support,  close: close, nowPrice: nowPrice, closedPrice: closedPrice, date: cleanDate)       
             
             let tickDate = tick.date
             if let index = dateEntries.firstIndex(where: { $0.date == tickDate }) {
@@ -167,21 +172,10 @@ struct SignalTickRow: View {
             
             Spacer()
             
-            Text(String(format: "%.2f", tick.nowPrice))
+            Text(String(format: "%.2f", tick.support))
 
             Spacer()
             
-            Text(percentageText)
-                .foregroundColor(percentageColor)
-            
-            Spacer()
-            
-            Circle()
-                .fill(tick.closedPrice == nil ? Color.green : Color.blue)
-                .frame(width: 10, height: 10)
-                .onTapGesture(count: 2) {
-                    closeWatch(tick)
-                }
         }
     }
     

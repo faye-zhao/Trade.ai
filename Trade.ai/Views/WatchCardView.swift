@@ -131,7 +131,7 @@ struct WatchCardView: View {
             
             //print("Date: \(columns[1]), \(columns[8]), \(Float(columns[8])) , Symbol: \(symbol), Sector: \(sector), Close: \(close), Now Price: \(nowPrice), Closed Price: \(closedPrice)")
 
-            let tick = Tick(symbol: cleanSymbol, sector: sector, close: close, nowPrice: nowPrice, closedPrice: closedPrice, date: cleanDate)       
+            let tick = Tick(symbol: cleanSymbol, sector: sector, support: 0, close: close,  nowPrice: nowPrice, closedPrice: closedPrice, date: cleanDate)       
             
             let tickDate = tick.date
             if let index = dateEntries.firstIndex(where: { $0.date == tickDate }) {
