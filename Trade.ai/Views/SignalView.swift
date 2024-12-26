@@ -142,18 +142,35 @@ struct SignalCardView: View {
     
     var body: some View {
         VStack(spacing: 10) {
-            ForEach(entry.ticks) { tick in
-                VStack(alignment: .leading, spacing: 10) {
-                    Text(entry.date)
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                    SignalTickRow(tick: tick)
+            VStack(alignment: .leading, spacing: 10) {                
+                HStack {
+                    Text("Symbol")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                    Spacer()
+                    Text("Buy Price")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                    Spacer()
+                    Text("Support Price")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                    Spacer()
                 }
-                .padding()
-                .background(Color.white)
-                .cornerRadius(10)
-                .shadow(radius: 5)
+                .padding(.horizontal)
+                
+                ForEach(entry.ticks) { tick in
+                    VStack(alignment: .leading, spacing: 10) {
+                        SignalTickRow(tick: tick)
+                    }
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(10)
+                    .shadow(radius: 5)
+                }
             }
+            .padding()
+            .background(Color.white)
         }
     }
 }
