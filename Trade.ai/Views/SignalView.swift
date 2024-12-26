@@ -12,7 +12,7 @@ struct SignalView: View {
                 ScrollView {
                     VStack(spacing: 10) {                        
                         if let firstEntry = dateList.first {
-                            CardView(entry: firstEntry)
+                            SignalCardView(entry: firstEntry)
                         }
                     }
                     .padding()
@@ -131,4 +131,88 @@ struct SignalView: View {
         return dateEntries
     }
 }
+
+struct SignalCardView: View {
+    let entry: DateEntry
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(entry.date)
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            ForEach(entry.ticks) { tick in
+                SignalTickRow(tick: tick)
+            }
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(10)
+        .shadow(radius: 5)
+    }
+}
+
+struct SignalTickRow: View {
+    let tick: Tick
+    
+    var body: some View {
+        HStack {
+            Text(tick.symbol)
+                .onTapGesture {
+                    // Implement popover functionality
+                }
+            
+            Spacer()
+            
+            Text(String(format: "%.2f", tick.close))
+            
+            Spacer()
+            
+            Text(String(format: "%.2f", tick.nowPrice))
+
+            Spacer()
+            
+            Text(percentageText)
+                .foregroundColor(percentageColor)
+            
+            Spacer()
+            
+            Circle()
+                .fill(tick.closedPrice == nil ? Color.green : Color.blue)
+                .frame(width: 10, height: 10)
+                .onTapGesture(count: 2) {
+                    closeWatch(tick)
+                }
+        }
+    }
+    
+    private var percentageText: String {
+        let percentage: Double
+        if let closedPrice = tick.closedPrice {
+            percentage = (closedPrice - tick.close) / tick.close * 100
+        } else {
+            percentage = (tick.nowPrice - tick.close) / tick.close * 100
+        }
+        return String(format: "%+.1f%%", percentage)
+    }
+    
+    private var percentageColor: Color {
+        if percentageText.starts(with: "+") {
+            return .green
+        } else if percentageText.starts(with: "-") {
+            return .red
+        } else {
+            return .black
+        }
+    }
+    
+    private func getSectorName(_ sector: String) -> String {
+        // Implement sector name lookup
+        return sector
+    }
+    
+    private func closeWatch(_ tick: Tick) {
+        // Implement watch closing functionality
+    }
+}
+
 
