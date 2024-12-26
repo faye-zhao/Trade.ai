@@ -142,7 +142,11 @@ struct SignalCardView: View {
     
     var body: some View {
         VStack(spacing: 10) {
-            VStack(alignment: .leading, spacing: 10) {                
+            VStack(alignment: .leading, spacing: 10) {
+                Text(entry.date)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                
                 HStack {
                     Text("Symbol")
                         .font(.caption)
