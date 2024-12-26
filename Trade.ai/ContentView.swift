@@ -7,17 +7,30 @@ struct ContentView: View {
         TabView(selection: $selectedTab) {
             HomeView()
                 .tabItem {
-                    Image(systemName: selectedTab == 0 ? "house.fill" : "house")
-                    Text("Home")
+                    Image(systemName: selectedTab == 0 ? "arrow.up.right.circle" : "arrow.up.right.circle.fill")
+                        .font(.largeTitle)
+                        .padding()
+
+                    Text("New Signals")
                 }
                 .tag(0)
                         
             NotificationsView()
                 .tabItem {
-                    Image(systemName: selectedTab == 1 ? "bell.fill" : "bell")
-                    Text("Notifications")
+                    Image(systemName: selectedTab == 1 ? "doc.text" : "doc.text.fill")
+                        .font(.largeTitle)
+                        .padding()
+                    Text("Past Signals")
                 }
                 .tag(1)
+            /*
+            ERView()
+                .tabItem {
+                    Image(systemName: selectedTab == 2 ? "bell.fill" : "bell")
+                    Text("Recent ERs")
+                }
+                .tag(2)
+            */
         }
     }
 }
