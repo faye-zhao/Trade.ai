@@ -103,7 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 "oldToken": storedToken ?? "",
                 "newToken": token
             ]
-            
+            print("Update Token on Server")
             // Send to backend
             updateTokenOnServer(payload)
         }
