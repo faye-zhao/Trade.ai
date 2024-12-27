@@ -71,6 +71,7 @@ struct SettingsView: View {
             VStack(alignment: .leading, spacing: 20) {
                 Button(action: {
                     print("Join Discord Channel tapped")
+                    joinDiscordChannel()
                 }) {
                     HStack {
                         Image(systemName: "bubble.left.and.bubble.right.fill")
@@ -130,5 +131,13 @@ struct SettingsView: View {
         }
         .frame(maxHeight: .infinity)
         .padding() // Overall padding for the view
+    }
+}
+
+func joinDiscordChannel() {
+    if let url = URL(string: "https://discord.gg/8NkNZMa8") {
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    } else {
+        print("Invalid Discord URL")
     }
 }

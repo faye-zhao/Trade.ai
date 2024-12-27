@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         completionHandler(.newData)
     }
-    
+    /*
     private func sendDeviceTokenToServer(token: String) {
         // Replace with your backend's URL
         let url = URL(string: "https://your-backend.com/register-device-token")!
@@ -88,4 +88,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         task.resume()
     }
+    */
+    private func sendDeviceTokenToServer(token: String) {
+        let storedToken = UserDefaults.standard.string(forKey: "deviceToken")
+        
+        // Compare new token with stored token
+        if storedToken != token {
+            // Update locally
+            UserDefaults.standard.set(token, forKey: "deviceToken")
+            
+            // Prepare payload
+            let payload: [String: String] = [
+                "userId": "12345", //TBD
+                "oldToken": storedToken ?? "",
+                "newToken": token
+            ]
+            
+            // Send to backend
+            updateTokenOnServer(payload)
+        }
+    }
+
+    func updateTokenOnServer(_ payload: [String: String]) {
+        // Example backend request
+        //${DOMAIN_NAME}/chart/updateToken
+        guard let url = URL(string: "https://fz.whaty.org/chart/updateToken") else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        request.httpBody = try? JSONSerialization.data(withJSONObject: payload)
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error updating token: \(error.localizedDescription)")
+            } else {
+                print("Successfully updated token")
+            }
+        }.resume()
+    }
+
 }
