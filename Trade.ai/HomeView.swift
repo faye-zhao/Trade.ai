@@ -29,18 +29,50 @@ struct HomeView: View {
                 }
                 .padding(.horizontal)
                 
-                // Main Content of Home View
-                VStack(alignment: .leading, spacing: 16) { // Align and add spacing
-                    Text("AI Signals")
-                        .font(.title) // Optional: Adjust font size
+                TabView {
+                    BuySignalsView()
+                        .tabItem {
+                            Image(systemName: "arrow.up.circle.fill")
+                            Text("Buy Signals")
+                        }
                     
-                    SignalView()
+                    ShortSignalsView()
+                        .tabItem {
+                            Image(systemName: "arrow.down.circle.fill")
+                            Text("Short Signals")
+                        }
                 }
-                .padding(.horizontal) // Add consistent left and right padding
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity) // Take remaining space
         }
         .animation(.easeInOut, value: showSettings) // Smooth transition
     }
 }
+
+// Buy Signals View
+struct BuySignalsView: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Buy Signals")
+                .font(.title)
+            
+            SignalView(signalType: "Buy")
+        }
+        .padding(.horizontal)
+    }
+}
+
+// Short Signals View
+struct ShortSignalsView: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Short Signals")
+                .font(.title)
+            
+            SignalView(signalType: "Short")
+        }
+        .padding(.horizontal)
+    }
+}
+
 
