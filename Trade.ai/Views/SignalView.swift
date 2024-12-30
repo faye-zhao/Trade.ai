@@ -42,6 +42,8 @@ struct SignalView: View {
             urlString = "https://\(hostname)/csv/signals"
         case "Short":
             urlString = "https://\(hostname)/csv/signalsNeg"
+        case "Auto":
+            urlString = "https://\(hostname)/csv/signalsAuto?type=p"
         default:
             urlString = "https://\(hostname)/csv/signalsAuto?type=p"
         }
@@ -53,7 +55,6 @@ struct SignalView: View {
         isLoading = true
         defer { isLoading = false }
 
-        // Implement data loading logic here
         let url = getURL(for: signalType)
 
         var request = URLRequest(url: url)
@@ -66,7 +67,7 @@ struct SignalView: View {
                 return
             }
             
-            let parsedData = parseCSVManul(csvString)
+            let parsedData = signalType == "Buy" || signalType == "Short" ? parseCSVManul(csvString) : parseCSV(csvString)
             
             await MainActor.run {
                 self.dateList = parsedData

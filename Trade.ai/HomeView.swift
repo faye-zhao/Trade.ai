@@ -2,7 +2,7 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var showSettings = false // State to control the side panel
-    
+    @State private var selectedTab = 0
     var body: some View {
         HStack {
             // Side Panel (conditionally visible)
@@ -29,33 +29,70 @@ struct HomeView: View {
                 }
                 .padding(.horizontal)
                 
-                TabView {
-                    BuySignalsView()
-                        .tabItem {
-                            Image(systemName: "arrow.up.circle.fill")
-                            Text("Buy Signals")
-                        }
+            VStack {
+                // Tab Buttons
+                HStack(spacing: 16) {
+                    TabButton(icon: "arrow.up.circle.fill", title: "Buy", isSelected: selectedTab == 0) {
+                        selectedTab = 0
+                    }
                     
+                    TabButton(icon: "arrow.down.circle.fill", title: "Short", isSelected: selectedTab == 1) {
+                        selectedTab = 1
+                    }
+
+                    TabButton(icon: "arrow.up.circle.fill", title: "Auto Buy", isSelected: selectedTab == 2) {
+                        selectedTab = 2
+                    }
+                }
+                .padding()
+                .background(Color(UIColor.systemGray6))
+                .cornerRadius(12)
+                .padding(.horizontal)
+
+                // Tab Content
+                if selectedTab == 0 {
+                    BuySignalsView()
+                } else if selectedTab == 1 {
                     ShortSignalsView()
-                        .tabItem {
-                            Image(systemName: "arrow.down.circle.fill")
-                            Text("Short Signals")
-                        }
+                } else {
+                    AutoSignalsView()
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity) // Take remaining space
+            .animation(.easeInOut, value: selectedTab) 
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity) // Take remaining space
+            }
+            .animation(.easeInOut, value: showSettings) // Smooth transition
         }
-        .animation(.easeInOut, value: showSettings) // Smooth transition
-    }
 }
 
+// Reusable Tab Button
+struct TabButton: View {
+    let icon: String
+    let title: String
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                Image(systemName: icon)
+                    .font(.title2)
+                Text(title)
+                    .font(.footnote)
+            }
+            .padding()
+            .foregroundColor(isSelected ? .white : .gray)
+            .background(isSelected ? Color.blue : Color.clear)
+            .cornerRadius(8)
+            .shadow(color: isSelected ? Color.blue.opacity(0.3) : Color.clear, radius: 4, x: 0, y: 2)
+        }
+    }
+}
 // Buy Signals View
 struct BuySignalsView: View {
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("Buy Signals")
-                .font(.title)
-            
+        VStack(alignment: .leading, spacing: 16) {            
             SignalView(signalType: "Buy")
         }
         .padding(.horizontal)
@@ -66,10 +103,18 @@ struct BuySignalsView: View {
 struct ShortSignalsView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Short Signals")
-                .font(.title)
-            
             SignalView(signalType: "Short")
+        }
+        .padding(.horizontal)
+    }
+}
+
+
+// Auto Buy Signals View
+struct AutoSignalsView: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            SignalView(signalType: "Auto")
         }
         .padding(.horizontal)
     }
