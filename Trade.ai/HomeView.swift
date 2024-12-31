@@ -2,14 +2,14 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var showSettings = false // State to control the side panel
-    @State private var selectedTab = 0
+    //@State private var selectedTab = 0
     @State private var selectedSentiment = "Short" // Default sentiment
 
     // Sentiment options
     let sentimentOptions = [
         (icon: "📈", label: "Buy"),
         (icon: "📉", label: "Short"),
-        (icon: "⚖️", label: "Neutral")
+        (icon: "⚖️", label: "Auto")
     ]
 
     var body: some View {
@@ -61,35 +61,15 @@ struct HomeView: View {
                 .padding(.horizontal)
 
                 VStack {
-                    // Tab Buttons
-                    HStack(spacing: 16) {
-                        TabButton(icon: "arrow.up.circle.fill", title: "Buy", isSelected: selectedTab == 0) {
-                            selectedTab = 0
-                        }
-
-                        TabButton(icon: "arrow.down.circle.fill", title: "Short", isSelected: selectedTab == 1) {
-                            selectedTab = 1
-                        }
-
-                        TabButton(icon: "arrow.up.circle.fill", title: "Auto Buy", isSelected: selectedTab == 2) {
-                            selectedTab = 2
-                        }
-                    }
-                    .padding()
-                    .background(Color(UIColor.systemGray6))
-                    .cornerRadius(12)
-                    .padding(.horizontal)
-
-                    // Tab Content
-                    if selectedTab == 0 {
+                    if selectedSentiment == "Buy" {
                         BuySignalsView()
-                    } else if selectedTab == 1 {
+                    } else if selectedSentiment == "Short" {
                         ShortSignalsView()
                     } else {
                         AutoSignalsView()
                     }
                 }
-                .animation(.easeInOut, value: selectedTab)
+                .animation(.easeInOut, value: selectedSentiment)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity) // Take remaining space
             .animation(.easeInOut, value: showSettings) // Smooth transition
@@ -97,29 +77,6 @@ struct HomeView: View {
     }
 }
 
-// Reusable Tab Button
-struct TabButton: View {
-    let icon: String
-    let title: String
-    let isSelected: Bool
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            HStack {
-                Image(systemName: icon)
-                    .font(.title2)
-                Text(title)
-                    .font(.footnote)
-            }
-            .padding()
-            .foregroundColor(isSelected ? .white : .gray)
-            .background(isSelected ? Color.blue : Color.clear)
-            .cornerRadius(8)
-            .shadow(color: isSelected ? Color.blue.opacity(0.3) : Color.clear, radius: 4, x: 0, y: 2)
-        }
-    }
-}
 // Buy Signals View
 struct BuySignalsView: View {
     var body: some View {
