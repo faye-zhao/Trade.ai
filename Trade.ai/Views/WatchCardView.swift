@@ -166,7 +166,7 @@ struct WatchCardView: View {
     
         return dateEntries
     }
-    
+
     private func parseCSV(_ csvString: String) -> [DateEntry] {
         // Split the CSV string into lines
         let lines = csvString.components(separatedBy: .newlines)
@@ -327,8 +327,3 @@ struct TickRow: View {
     }
 }
 
-struct WatchCardView_Previews: PreviewProvider {
-    static var previews: some View {
-        WatchCardView()
-    }
-}

@@ -1,9 +1,8 @@
 import SwiftUI
 
 struct NotificationsView: View {
-    @State private var selectedSentiment = "Short" // Default sentiment
+    @State private var selectedSentiment = "Short"
 
-    // Sentiment options
     let sentimentOptions = [
         (icon: "📈", label: "Buy"),
         (icon: "📉", label: "Short"),
@@ -11,17 +10,13 @@ struct NotificationsView: View {
     ]
 
     var body: some View {
-        
-        VStack {    
-            // Top Bar with Button on the Left
+        VStack {
             HStack {
                 Spacer()
-
-                // Sentiment Selector
                 Menu {
                     ForEach(sentimentOptions, id: \.label) { option in
                         Button(action: {
-                            selectedSentiment = option.label // Update sentiment
+                            selectedSentiment = option.label
                         }) {
                             HStack {
                                 Text(option.icon)
@@ -40,7 +35,6 @@ struct NotificationsView: View {
             }
             .padding(.horizontal)
 
-            //Buy/Short/Auto    
             VStack {
                 if selectedSentiment == "Buy" {
                     BuySignalsAllView()
@@ -56,17 +50,15 @@ struct NotificationsView: View {
     }
 }
 
-// Buy Signals View
 struct BuySignalsAllView: View {
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {            
+        VStack(alignment: .leading, spacing: 16) {
             WatchCardView(signalType: "Buy")
         }
         .padding(.horizontal)
     }
 }
 
-// Short Signals View
 struct ShortSignalsAllView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -76,13 +68,17 @@ struct ShortSignalsAllView: View {
     }
 }
 
-
-// Auto Buy Signals View
 struct AutoSignalsAllView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             WatchCardView(signalType: "Auto")
         }
         .padding(.horizontal)
+    }
+}
+
+struct NotificationsView_Previews: PreviewProvider {
+    static var previews: some View {
+        NotificationsView()
     }
 }

@@ -309,4 +309,10 @@ struct SignalTickRow: View {
     }
 }
 
+struct WatchCardView_Previews: PreviewProvider {
+    static var previews: some View {
+        WatchCardView(signalType: "Buy")
+    }
+}
+
 
