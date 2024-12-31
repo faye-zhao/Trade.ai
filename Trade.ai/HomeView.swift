@@ -3,6 +3,15 @@ import SwiftUI
 struct HomeView: View {
     @State private var showSettings = false // State to control the side panel
     @State private var selectedTab = 0
+    @State private var selectedSentiment = "Short" // Default sentiment
+
+    // Sentiment options
+    let sentimentOptions = [
+        (icon: "📈", label: "Buy"),
+        (icon: "📉", label: "Short"),
+        (icon: "⚖️", label: "Neutral")
+    ]
+
     var body: some View {
         HStack {
             // Side Panel (conditionally visible)
@@ -13,7 +22,7 @@ struct HomeView: View {
                     .cornerRadius(10)
                     .shadow(radius: 5)
             }
-            
+
             // Main Content
             VStack {
                 // Top Bar with Button on the Left
@@ -25,45 +34,67 @@ struct HomeView: View {
                             .imageScale(.large)
                             .padding()
                     }
+
                     Spacer()
+
+                    // Sentiment Selector
+                    Menu {
+                        ForEach(sentimentOptions, id: \.label) { option in
+                            Button(action: {
+                                selectedSentiment = option.label // Update sentiment
+                            }) {
+                                HStack {
+                                    Text(option.icon)
+                                    Text(option.label)
+                                }
+                            }
+                        }
+                    } label: {
+                        HStack {
+                            Text(sentimentOptions.first { $0.label == selectedSentiment }?.icon ?? "⚖️")
+                            Text(selectedSentiment)
+                        }
+                        .font(.headline)
+                        .padding()
+                    }
                 }
                 .padding(.horizontal)
-                
-            VStack {
-                // Tab Buttons
-                HStack(spacing: 16) {
-                    TabButton(icon: "arrow.up.circle.fill", title: "Buy", isSelected: selectedTab == 0) {
-                        selectedTab = 0
-                    }
-                    
-                    TabButton(icon: "arrow.down.circle.fill", title: "Short", isSelected: selectedTab == 1) {
-                        selectedTab = 1
-                    }
 
-                    TabButton(icon: "arrow.up.circle.fill", title: "Auto Buy", isSelected: selectedTab == 2) {
-                        selectedTab = 2
+                VStack {
+                    // Tab Buttons
+                    HStack(spacing: 16) {
+                        TabButton(icon: "arrow.up.circle.fill", title: "Buy", isSelected: selectedTab == 0) {
+                            selectedTab = 0
+                        }
+
+                        TabButton(icon: "arrow.down.circle.fill", title: "Short", isSelected: selectedTab == 1) {
+                            selectedTab = 1
+                        }
+
+                        TabButton(icon: "arrow.up.circle.fill", title: "Auto Buy", isSelected: selectedTab == 2) {
+                            selectedTab = 2
+                        }
+                    }
+                    .padding()
+                    .background(Color(UIColor.systemGray6))
+                    .cornerRadius(12)
+                    .padding(.horizontal)
+
+                    // Tab Content
+                    if selectedTab == 0 {
+                        BuySignalsView()
+                    } else if selectedTab == 1 {
+                        ShortSignalsView()
+                    } else {
+                        AutoSignalsView()
                     }
                 }
-                .padding()
-                .background(Color(UIColor.systemGray6))
-                .cornerRadius(12)
-                .padding(.horizontal)
-
-                // Tab Content
-                if selectedTab == 0 {
-                    BuySignalsView()
-                } else if selectedTab == 1 {
-                    ShortSignalsView()
-                } else {
-                    AutoSignalsView()
-                }
+                .animation(.easeInOut, value: selectedTab)
             }
-            .animation(.easeInOut, value: selectedTab) 
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity) // Take remaining space
-            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity) // Take remaining space
             .animation(.easeInOut, value: showSettings) // Smooth transition
         }
+    }
 }
 
 // Reusable Tab Button
