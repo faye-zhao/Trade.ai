@@ -12,22 +12,21 @@ struct WatchCardView: View {
                 ProgressView("Loading data...")
             } else {
                 ScrollView {
-                    VStack(spacing: 10) {                        
+                    VStack(spacing: 10) {
                         Text("Today")
                             .font(.headline)
                             .padding(.horizontal)
-                            .frame(maxWidth: .infinity, alignment: .leading) // Align to the left
-                        
-                        
+                            .frame(maxWidth: .infinity, alignment: .leading)
+
                         ForEach(dateList.indices, id: \.self) { index in
-                            if index > 0, index == 1 { // After the first card
+                            if index > 0, index == 1 {
                                 Text("Older")
                                     .font(.headline)
                                     .padding(.horizontal)
-                                    .padding(.top, 20) // Add spacing above "Older"
-                                    .frame(maxWidth: .infinity, alignment: .leading) // Align to the left
+                                    .padding(.top, 20)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
                             }
-                            
+
                             CardView(entry: dateList[index])
                         }
                     }
@@ -37,210 +36,20 @@ struct WatchCardView: View {
         }
         .onAppear {
             Task {
-                await loadData()
+                await fetchData()
             }
         }
     }
 
-    //signals?
-    //signalsNeg
-    //signalsAuto?type=p
-    //let hostname = "fz.whaty.org"
-    //let url = URL(string: "https://\(hostname)/csv/signalsAuto?type=p")!
-    private func getURL(for signalType: String) -> URL {
-        let hostname = "fz.whaty.org" // Replace with your actual hostname
-        let urlString: String
-        
-        switch signalType {
-        case "Buy":
-            urlString = "https://\(hostname)/csv/signals"
-        case "Short":
-            urlString = "https://\(hostname)/csv/signalsNeg"
-        case "Auto":
-            urlString = "https://\(hostname)/csv/signalsAuto?type=p"
-        default:
-            urlString = "https://\(hostname)/csv/signalsAuto?type=p"
-        }
-        
-        return URL(string: urlString)!
-    }
-
-    private func loadData() async {
+    private func fetchData() async {
         isLoading = true
         defer { isLoading = false }
 
-        let url = getURL(for: signalType)
-
-        var request = URLRequest(url: url)
-        request.setValue("text/csv", forHTTPHeaderField: "Accept")
-        
         do {
-            let (data, _) = try await URLSession.shared.data(for: request)
-            guard let csvString = String(data: data, encoding: .utf8) else {
-                print("Invalid data")
-                return
-            }
-            
-            let parsedData = signalType == "Buy" || signalType == "Short" ? parseCSVManul(csvString) : parseCSV(csvString)
-            
-            await MainActor.run {
-                self.dateList = parsedData
-            }
+            dateList = try await DataLoader.loadData(signalType: signalType)
         } catch {
-            print("Error: \(error.localizedDescription)")
+            print("Error loading data: \(error.localizedDescription)")
         }
-    }
-
-    private func parseCSVManul(_ csvString: String) -> [DateEntry] {
-        // Split the CSV string into lines
-        let lines = csvString.components(separatedBy: .newlines)
-        // Print the lines to the console
-        print("CSV Lines:")
-        
-        for (index, line) in lines.enumerated() {
-            print("Line \(index + 1): \(line)")
-        }
-        
-        // Create a date formatter
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        var dateEntries: [DateEntry] = []
-        
-        // Skip the header row
-        for line in lines.dropFirst() {
-            // Break the loop if we've processed 20 entries
-            if dateEntries.count >= 20 {
-                break
-            }
-            let columns = line.components(separatedBy: ",")
-
-            guard columns.count >= 11 else { continue }
-
-            //from manual signal
-            //"symbol","date","pattern","attr","rsi","price","strength","sector","lo","close",
-            //"orderType","closedPrice","nowPrice","closedDate","closedRatio"
-            let date = columns[1]
-            let cleanDate = date
-                .replacingOccurrences(of: "\"", with: "")
-
-            let symbol = columns[0]
-            let cleanSymbol = symbol
-                .replacingOccurrences(of: "\"", with: "")
-
-            let sector = columns[7]
-
-            let closeColumn = columns[9]
-            let cleanCloseColumn = closeColumn
-                .replacingOccurrences(of: "\"", with: "")
-
-            let loColumn = columns[8]
-            let cleanLoColumn = loColumn
-                .replacingOccurrences(of: "\"", with: "")
-
-            let closedPriceColumn = columns[11]
-            let cleanClosedPriceColumn = closedPriceColumn
-                .replacingOccurrences(of: "\"", with: "")
-
-            let nowPriceColumn = columns[12]
-            let cleanNowPriceColumn = nowPriceColumn
-                .replacingOccurrences(of: "\"", with: "")
-
-            let close = Double(cleanCloseColumn) ?? 0.0
-            let nowPrice = Double(cleanNowPriceColumn) ?? 0.0
-            let closedPrice = Double(cleanClosedPriceColumn)
-            let support = Double(cleanLoColumn) ?? 0.0
-
-            //print("Date: \(columns[1]), \(columns[8]), \(Float(columns[8])) , Symbol: \(symbol), Sector: \(sector), Close: \(close), Now Price: \(nowPrice), Closed Price: \(closedPrice)")
-
-            let tick = Tick(symbol: cleanSymbol, sector: sector, support: support,  close: close, nowPrice: nowPrice, closedPrice: closedPrice, date: cleanDate)       
-            
-            let tickDate = tick.date
-            if let index = dateEntries.firstIndex(where: { $0.date == tickDate }) {
-                dateEntries[index].ticks.append(tick)  // Modify the entry directly in the array
-            } else {
-                let newEntry = DateEntry(date: tickDate, ticks: [tick])
-                dateEntries.append(newEntry)
-            }
-        }
-    
-        return dateEntries
-    }
-
-    private func parseCSV(_ csvString: String) -> [DateEntry] {
-        // Split the CSV string into lines
-        let lines = csvString.components(separatedBy: .newlines)
-        // Print the lines to the console
-        print("CSV Lines:")
-        /*
-        for (index, line) in lines.enumerated() {
-            print("Line \(index + 1): \(line)")
-        }
-        */
-        // Create a date formatter
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        var dateEntries: [DateEntry] = []
-        
-        // Skip the header row
-        for line in lines.dropFirst() {
-            // Break the loop if we've processed 20 entries
-            if dateEntries.count >= 20 {
-                break
-            }
-            let columns = line.components(separatedBy: ",")
-
-            guard columns.count >= 11 else { continue }
-
-            //symbol,date,pattern,attr,price,strength,sector,lo,close,orderType,closedPrice
-
-            //date,collectType,symbol,
-            //pattern,briefPattern,rsi,attr,ratio,weight,strength,
-            //sector,pRatio,cweight,ov,cover,sDur,uRatio,fsRelTotalStrength,
-            //fsStrength,fsRatio,fsRelDur,
-            //lo,close,er,noChange,volScore,vol,volRate,volCount,description,tableType,
-            //nowPrice
-            let date = columns[0]
-            let cleanDate = date
-                .replacingOccurrences(of: "\"", with: "")
-
-            let symbol = columns[2]
-            let cleanSymbol = symbol
-                .replacingOccurrences(of: "\"", with: "")
-
-            let sector = columns[10]
-
-            let closeColumn = columns[23]
-            let cleanCloseColumn = closeColumn
-                .replacingOccurrences(of: "\"", with: "")
-
-            let closedPriceColumn = columns[32]
-            let cleanClosedPriceColumn = closedPriceColumn
-                .replacingOccurrences(of: "\"", with: "")
-
-            let nowPriceColumn = columns[32]
-            let cleanNowPriceColumn = nowPriceColumn
-                .replacingOccurrences(of: "\"", with: "")
-
-            let close = Double(cleanCloseColumn) ?? 0.0
-            let nowPrice = Double(cleanNowPriceColumn) ?? 0.0
-            let closedPrice = Double(cleanClosedPriceColumn)
-            
-            //print("Date: \(columns[1]), \(columns[8]), \(Float(columns[8])) , Symbol: \(symbol), Sector: \(sector), Close: \(close), Now Price: \(nowPrice), Closed Price: \(closedPrice)")
-
-            let tick = Tick(symbol: cleanSymbol, sector: sector, support: 0, close: close,  nowPrice: nowPrice, closedPrice: closedPrice, date: cleanDate)       
-            
-            let tickDate = tick.date
-            if let index = dateEntries.firstIndex(where: { $0.date == tickDate }) {
-                dateEntries[index].ticks.append(tick)  // Modify the entry directly in the array
-            } else {
-                let newEntry = DateEntry(date: tickDate, ticks: [tick])
-                dateEntries.append(newEntry)
-            }
-        }
-    
-        return dateEntries
     }
 }
 

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DD024F9E2D1DD94700B17D34 /* SignalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD024F9D2D1DD94700B17D34 /* SignalView.swift */; };
+		DD024FA02D25FDEF00B17D34 /* DateLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD024F9F2D25FDEF00B17D34 /* DateLoader.swift */; };
 		DDE8406E2CFE533F004D0AA2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE8406D2CFE533F004D0AA2 /* AppDelegate.swift */; };
 		DDE840B72D1C99F0004D0AA2 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE840B62D1C99F0004D0AA2 /* HomeView.swift */; };
 		DDE840BB2D1CAA0E004D0AA2 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE840BA2D1CAA0E004D0AA2 /* Notifications.swift */; };
@@ -45,6 +46,7 @@
 
 /* Begin PBXFileReference section */
 		DD024F9D2D1DD94700B17D34 /* SignalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignalView.swift; path = Views/SignalView.swift; sourceTree = "<group>"; };
+		DD024F9F2D25FDEF00B17D34 /* DateLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateLoader.swift; path = Views/DateLoader.swift; sourceTree = "<group>"; };
 		DDA5B7F72CF901E7006308EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DDE8406C2CFE3118004D0AA2 /* Trade.ai.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Trade.ai.entitlements; sourceTree = "<group>"; };
 		DDE8406D2CFE533F004D0AA2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 		DDFA8D622CBB2CE90082DEFC /* Trade.ai */ = {
 			isa = PBXGroup;
 			children = (
+				DD024F9F2D25FDEF00B17D34 /* DateLoader.swift */,
 				DD024F9D2D1DD94700B17D34 /* SignalView.swift */,
 				DDE840C22D1CCFDB004D0AA2 /* ContactUsView.swift */,
 				DDE840C02D1CCD85004D0AA2 /* DisclaimerView.swift */,
@@ -294,6 +297,7 @@
 				DDFA8D8E2CBB35050082DEFC /* Tick.swift in Sources */,
 				DDE840BD2D1CAC75004D0AA2 /* SettingsView.swift in Sources */,
 				DDE840BB2D1CAA0E004D0AA2 /* Notifications.swift in Sources */,
+				DD024FA02D25FDEF00B17D34 /* DateLoader.swift in Sources */,
 				DDE840C32D1CCFDB004D0AA2 /* ContactUsView.swift in Sources */,
 				DD024F9E2D1DD94700B17D34 /* SignalView.swift in Sources */,
 				DDE840C12D1CCD85004D0AA2 /* DisclaimerView.swift in Sources */,
