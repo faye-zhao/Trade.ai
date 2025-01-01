@@ -17,6 +17,20 @@ struct DataLoader {
             : parseCSV(csvString)
     }
 
+    static func loadChartData(symbol: String) async throws -> [ChartDataPoint] {
+        let url = getChartURL(for: symbol)
+
+        var request = URLRequest(url: url)
+        request.setValue("text/csv", forHTTPHeaderField: "Accept")
+
+        let (data, _) = try await URLSession.shared.data(for: request)
+        guard let csvString = String(data: data, encoding: .utf8) else {
+            throw DataLoaderError.invalidData
+        }
+
+        return parseChartCSV(csvString)
+    }
+
     private static func getURL(for signalType: String) -> URL {
         let hostname = "fz.whaty.org" // Replace with your actual hostname
         let urlString: String
@@ -32,6 +46,12 @@ struct DataLoader {
             urlString = "https://\(hostname)/csv/signalsAuto?type=p"
         }
 
+        return URL(string: urlString)!
+    }
+
+    private static func getChartURL(for symbol: String) -> URL {
+        let hostname = "fz.whaty.org" // Replace with your actual hostname
+        let urlString = "https://\(hostname)/chart/?type=c&symbol=\(symbol)"
         return URL(string: urlString)!
     }
 
@@ -74,7 +94,6 @@ struct DataLoader {
     }
 
     private static func parseCSV(_ csvString: String) -> [DateEntry] {
-        // Parsing logic from WatchCardView
         let lines = csvString.components(separatedBy: .newlines)
         var dateEntries: [DateEntry] = []
 
@@ -109,8 +128,38 @@ struct DataLoader {
 
         return dateEntries
     }
+
+    private static func parseChartCSV(_ csvString: String) -> [ChartDataPoint] {
+        let lines = csvString.components(separatedBy: .newlines)
+        var chartData: [ChartDataPoint] = []
+
+        for line in lines.dropFirst() {
+            let columns = line.components(separatedBy: ",")
+            guard columns.count >= 4 else { continue }
+
+            let date = columns[0].replacingOccurrences(of: "\"", with: "")
+            let open = Double(columns[1]) ?? 0.0
+            let high = Double(columns[2]) ?? 0.0
+            let low = Double(columns[3]) ?? 0.0
+            let close = Double(columns[4]) ?? 0.0
+
+            let dataPoint = ChartDataPoint(date: date, open: open, high: high, low: low, close: close)
+            chartData.append(dataPoint)
+        }
+
+        return chartData
+    }
 }
 
 enum DataLoaderError: Error {
     case invalidData
+}
+
+struct ChartDataPoint: Identifiable {
+    let id = UUID()
+    let date: String
+    let open: Double
+    let high: Double
+    let low: Double
+    let close: Double
 }
