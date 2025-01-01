@@ -84,36 +84,41 @@ struct SignalCardView: View {
 
 struct SignalTickRow: View {
     let tick: Tick
-    
-    var body: some View {
-        HStack {
-            Text(tick.symbol)
-                .onTapGesture {
-                    // Implement popover functionality
-                }
-            
-            Spacer()
-            
-            Text(String(format: "%.2f", tick.close))
-            
-            Spacer()
-            
-            Text(String(format: "%.2f", tick.support))
+    @State private var showChart: Bool = false // Track chart visibility
 
-            Spacer()
-            
+    var body: some View {
+        VStack {
+            // Row Content
+            HStack {
+                Text(tick.symbol)
+                    .onTapGesture {
+                        toggleChart()
+                    }
+
+                Spacer()
+
+                Text(String(format: "%.2f", tick.close))
+
+                Spacer()
+
+                Text(String(format: "%.2f", tick.support))
+
+                Spacer()
+            }
+            .padding()
+
+            // Conditionally display the stock chart
+            if showChart {
+                StockChartView(tick: tick)
+                    .transition(.opacity) // Smooth animation
+                    .padding(.top, 10)
+            }
         }
     }
-    
-    private func closeWatch(_ tick: Tick) {
-        // Implement watch closing functionality
+
+    private func toggleChart() {
+        withAnimation {
+            showChart.toggle() // Toggle chart visibility
+        }
     }
 }
-
-struct WatchCardView_Previews: PreviewProvider {
-    static var previews: some View {
-        WatchCardView(signalType: "Buy")
-    }
-}
-
-
