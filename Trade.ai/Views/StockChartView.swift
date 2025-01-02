@@ -8,11 +8,6 @@ struct StockChartView: View {
 
     var body: some View {
         VStack {
-            // Chart Title
-            Text("Stock Chart for \(tick.symbol)")
-                .font(.headline)
-                .padding(.bottom, 10)
-
             // Chart Area
             if isLoading {
                 ProgressView("Loading chart data...")
